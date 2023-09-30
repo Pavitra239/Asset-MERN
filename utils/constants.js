@@ -34,6 +34,13 @@ export const PLACE = {
   OUTPLACE: "out place",
 };
 
+export const PRODUCT_SORT_BY = {
+  NEWEST_FIRST: "newest",
+  OLDEST_FIRST: "oldest",
+  ASCENDING: "a-z",
+  DESCENDING: "z-a",
+};
+
 export const FIELDS = [
   {
     name: "invoice",

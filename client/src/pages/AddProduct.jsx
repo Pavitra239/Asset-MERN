@@ -63,7 +63,7 @@ const AddProduct = () => {
             name="assignedTo"
             list={["pavitra", "kevi"]}
           />
-          <FormRowSelect labelText="Status" name="Status" list={PLACE} />
+          <FormRowSelect labelText="Status" name="status" list={PLACE} />
           {checkedList &&
             checkedList.map((field, index) => {
               switch (field.type) {

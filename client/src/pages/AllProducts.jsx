@@ -5,11 +5,18 @@ import customFetch from "../utils/customFetch";
 import { useLoaderData } from "react-router-dom";
 import { useContext, createContext } from "react";
 
-export const loader = async () => {
+export const loader = async ({ request }) => {
+  console.log(request.url);
+  const params = Object.fromEntries([
+    ...new URL(request.url).searchParams.entries(),
+  ]);
+
   return await customFetch
-    .get("/products")
+    .get("/products", {
+      params,
+    })
     .then(({ data }) => {
-      return { data };
+      return { data, searchValues: { ...params } };
     })
     .catch((error) => {
       toast.error(error?.response?.data?.msg || error.message);
@@ -25,10 +32,10 @@ const AllProducts = () => {
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
 
-  const { data } = useLoaderData();
+  const { data, searchValues } = useLoaderData();
   return (
     <AllProductsContext.Provider
-      value={{ data, open, onOpenModal, onCloseModal }}
+      value={{ data, searchValues, open, onOpenModal, onCloseModal }}
     >
       <SearchContainer />
       <ProductsContainer />

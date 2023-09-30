@@ -3,21 +3,21 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
 
-import Job from "./models/JobModel.js";
+import Product from "./models/productModel.js";
 import User from "./models/UserModel.js";
 try {
   await mongoose.connect(process.env.MONGO_URI);
   // const user = await User.findOne({ email: 'john@gmail.com' });
-  const user = await User.findOne({ email: "test@test.com" });
+  const user = await User.findOne({ email: "head@head.com" });
 
-  const jsonJobs = JSON.parse(
+  const jsonProducts = JSON.parse(
     await readFile(new URL("./utils/mockData.json", import.meta.url))
   );
-  const jobs = jsonJobs.map((job) => {
-    return { ...job, createdBy: user._id };
+  const products = jsonProducts.map((product) => {
+    return { ...product, createdBy: user._id };
   });
-  await Job.deleteMany({ createdBy: user._id });
-  await Job.create(jobs);
+  await Product.deleteMany({ createdBy: user._id });
+  await Product.create(products);
   console.log("Success!!!");
   process.exit(0);
 } catch (error) {

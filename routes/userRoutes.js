@@ -14,7 +14,7 @@ const router = Router();
 
 router.get("/current-user", getCurrentUser);
 router.get("/admin/app-stats", [
-  authorizePermissions("admin"),
+  authorizePermissions("admin", "head"),
   getApplicationStats,
 ]);
 router.patch(

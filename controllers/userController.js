@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 import User from "../models/UserModel.js";
-import Job from "../models/JobModel.js";
+import Product from "../models/productModel.js";
 import { v2 as cloudinary } from "cloudinary";
 import { promises as fs } from "fs";
 export const getCurrentUser = async (req, res) => {
@@ -13,10 +13,14 @@ export const getCurrentUser = async (req, res) => {
 
 export const getApplicationStats = async (req, res) => {
   const users = await User.countDocuments();
-  const jobs = await Job.countDocuments();
+  const queryObject = {};
+  if (req.user.role === "head") {
+    queryObject.department = req.user.department;
+  }
+  const products = await Product.countDocuments(queryObject);
   res.status(StatusCodes.OK).json({
     users,
-    jobs,
+    products,
   });
 };
 

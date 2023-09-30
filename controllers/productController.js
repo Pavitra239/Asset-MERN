@@ -1,22 +1,64 @@
 import Product from "../models/productModel.js";
 import { StatusCodes } from "http-status-codes";
 import { uploadFile } from "../utils/firebase/uploadFile.js";
+import { PLACE, PRODUCT_SORT_BY } from "../utils/constants.js";
 
 export const getAllProducts = async (req, res) => {
-  let products;
-  if (req.user.role === "admin") {
-    products = await Product.find({});
-  } else {
-    products = await Product.find({ department: req.user.department });
+  const { search, productStatus, sort } = req.query;
+
+  // searching logic
+  const queryObject = {};
+  if (search) {
+    queryObject.name = { $regex: search, $options: "i" };
   }
+
+  if (productStatus && productStatus !== "all") {
+    queryObject.status = productStatus === PLACE.AVD ? true : false;
+  }
+
+  let products;
+  if (req.user.role !== "admin") {
+    queryObject.department = req.user.department;
+  }
+
+  // sorting logic
+  const sortOptions = {
+    newest: "-createdAt",
+    oldest: "createdAt",
+    "a-z": "name",
+    "z-a": "-name",
+  };
+
+  const sortKey = sortOptions[sort] || sortOptions.newest;
+
+  // Pagination logic
+
+  const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.limit) || 10;
+  const skip = (page - 1) * limit;
+
+  products = await Product.find(queryObject)
+    .sort(sortKey)
+    .skip(skip)
+    .limit(limit);
+
+  const totalProducts = await Product.countDocuments(queryObject);
+  const numOfPages = Math.ceil(totalProducts / limit);
+
   res.status(StatusCodes.OK).json({
-    products: products,
+    totalProducts,
+    numOfPages,
+    currentPage: page,
+    products,
   });
 };
 
 export const createProduct = async (req, res) => {
   req.body.createdBy = req.user.userId;
-  req.body.department = req.user.department;
+  if (req.user.role !== "admin") {
+    req.body.department = req.user.department;
+  }
+  req.body.status = req.body.status === PLACE.AVD ? true : false;
   if (req.files.productImg) {
     req.body.productImg = await uploadFile(
       req.files.productImg[0],
