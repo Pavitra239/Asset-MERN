@@ -17,7 +17,7 @@ router
   .route("/")
   .get(getAllProducts)
   .post(
-    authorizePermissions("admin", "head"),
+    authorizePermissions(USER_ROLES.ADMIN, USER_ROLES.HEAD),
     upload.fields([
       { name: "productImg", maxCount: 1 },
       { name: "invoice", maxCount: 1 },
@@ -31,6 +31,10 @@ router
   .patch(
     authorizePermissions(USER_ROLES.ADMIN, USER_ROLES.HEAD),
     validateProductIdParam,
+    upload.fields([
+      { name: "productImg", maxCount: 1 },
+      { name: "invoice", maxCount: 1 },
+    ]),
     updateProduct
   )
   .delete(

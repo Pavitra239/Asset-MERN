@@ -19,18 +19,14 @@ import {
 } from "./pages";
 import { action as registerAction } from "./pages/Register";
 import { action as loginAction } from "./pages/Login";
-import { action as addJobAction } from "./pages/AddJob";
 import { action as addProductAction } from "./pages/AddProduct";
-import { action as editJobAction } from "./pages/EditJob";
-import { action as deleteJobAction } from "./pages/DeleteJob";
 import { action as deleteProductAction } from "./pages/DeleteProduct";
 import { action as profileAction } from "./pages/Profile";
+import { action as editProductAction } from "./pages/EditProduct";
 import { loader as dashboardLoader } from "./pages/DashboardLayout";
-import { loader as allJobsLoader } from "./pages/AllJobs";
 import { loader as allProductsLoader } from "./pages/AllProducts";
-import { loader as editJobLoader } from "./pages/EditJob";
 import { loader as adminLoader } from "./pages/Admin";
-
+import { loader as editProductLoader } from "./pages/EditProduct";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -56,16 +52,6 @@ const router = createBrowserRouter([
         element: <DashboardLayout />,
         loader: dashboardLoader,
         children: [
-          // {
-          //   index: true,
-          //   element: <AddProduct />,
-          //   action: addProductAction,
-          // },
-          // {
-          //   path: "all-products",
-          //   element: <AllProducts />,
-          //   loader: allProductsLoader,
-          // },
           {
             index: true,
             element: <AllProducts />,
@@ -78,13 +64,12 @@ const router = createBrowserRouter([
           },
           { path: "profile", element: <Profile />, action: profileAction },
           { path: "admin", element: <Admin />, loader: adminLoader },
-          // {
-          //   path: "edit-job/:id",
-          //   element: <EditJob />,
-          //   action: editJobAction,
-          //   loader: editJobLoader,
-          // },
-          { path: "edit-product", element: <EditProduct /> },
+          {
+            path: "edit-product/:id",
+            element: <EditProduct />,
+            loader: editProductLoader,
+            action: editProductAction,
+          },
           { path: "delete-product/:id", action: deleteProductAction },
           { path: "stats", element: <Stats /> },
         ],

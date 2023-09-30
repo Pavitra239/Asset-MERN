@@ -3,6 +3,7 @@ import { StatusCodes } from "http-status-codes";
 import { uploadFile } from "../utils/firebase/uploadFile.js";
 import { PLACE, PRODUCT_SORT_BY } from "../utils/constants.js";
 import { promises as fs } from "fs";
+import { saveFile } from "../utils/saveFile.js";
 
 export const getAllProducts = async (req, res) => {
   const { search, productStatus, sort } = req.query;
@@ -61,20 +62,18 @@ export const createProduct = async (req, res) => {
   }
   req.body.status = req.body.status === PLACE.AVD ? true : false;
   if (req.files.productImg) {
-    req.body.productImg = await uploadFile(
+    req.body.productImg = await saveFile(
       req.files.productImg[0],
       req.body.department,
       "images"
     );
-    await fs.unlink(req.file.path);
   }
   if (req.files.invoice) {
-    req.body.invoice = await uploadFile(
+    req.body.invoice = await saveFile(
       req.files.invoice[0],
       req.body.department,
       "invoices"
     );
-    await fs.unlink(req.file.path);
   }
 
   const product = await Product.create(req.body);
@@ -92,6 +91,22 @@ export const getProduct = async (req, res) => {
 };
 
 export const updateProduct = async (req, res) => {
+  req.body.status = req.body.status === PLACE.AVD ? true : false;
+  if (req.files.productImg) {
+    req.body.productImg = await saveFile(
+      req.files.productImg[0],
+      req.body.department,
+      "images"
+    );
+  }
+  if (req.files.invoice) {
+    req.body.invoice = await saveFile(
+      req.files.invoice[0],
+      req.body.department,
+      "invoices"
+    );
+  }
+
   const updatedProduct = await Product.findByIdAndUpdate(
     req.params.id,
     req.body,

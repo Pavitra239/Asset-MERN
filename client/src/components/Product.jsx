@@ -64,7 +64,7 @@ const Product = ({ product }) => {
               handler={viewDetailsHandler}
             />
             <IconBtn type="button" iconType="qr" handler={downloadQrHandler} />
-            <Link to={`../edit-product/${product._id}`}>
+            <Link to={`./edit-product/${product._id}`}>
               <IconBtn type="button" iconType="edit" />
             </Link>
             <Form method="post" action={`./delete-product/${product._id}`}>
