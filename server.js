@@ -15,6 +15,11 @@ import productRouter from "./routes/productRoutes.js";
 // middlewares
 import errorHandlerMiddleware from "./middlewares/errorHandlerMiddleware.js";
 
+//public
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+import path from "path";
+
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.CLOUD_API_KEY,
@@ -22,13 +27,16 @@ cloudinary.config({
 });
 
 const app = express();
-app.use(express.static("public"));
-app.use(express.json());
-app.use(cookieParser());
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
+
+app.use(express.static(path.resolve(__dirname, "./client/dist")));
+app.use(express.json());
+app.use(cookieParser());
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
