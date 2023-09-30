@@ -54,6 +54,10 @@ app.use("/api/v1/users", authenticateUser, userRouter);
 // Auth Routes
 app.use("/api/v1/auth", authRouter);
 
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "./public", "index.html"));
+});
+
 // 404
 app.use("*", (req, res) => {
   res.status(404).json({

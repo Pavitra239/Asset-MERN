@@ -2,6 +2,7 @@ import Product from "../models/productModel.js";
 import { StatusCodes } from "http-status-codes";
 import { uploadFile } from "../utils/firebase/uploadFile.js";
 import { PLACE, PRODUCT_SORT_BY } from "../utils/constants.js";
+import { promises as fs } from "fs";
 
 export const getAllProducts = async (req, res) => {
   const { search, productStatus, sort } = req.query;
@@ -65,6 +66,7 @@ export const createProduct = async (req, res) => {
       req.body.department,
       "images"
     );
+    await fs.unlink(req.file.path);
   }
   if (req.files.invoice) {
     req.body.invoice = await uploadFile(
@@ -72,6 +74,7 @@ export const createProduct = async (req, res) => {
       req.body.department,
       "invoices"
     );
+    await fs.unlink(req.file.path);
   }
 
   const product = await Product.create(req.body);
