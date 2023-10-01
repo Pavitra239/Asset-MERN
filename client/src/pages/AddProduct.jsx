@@ -1,7 +1,7 @@
 import { FormRow, FormRowFile, SubmitBtn } from "../components";
 import { FormRowSelect } from "../components";
 import Wrapper from "../assets/wrappers/DashboardFormPage";
-import { useOutletContext } from "react-router-dom";
+import { useLoaderData, useOutletContext } from "react-router-dom";
 import { Form, redirect } from "react-router-dom";
 import { toast } from "react-toastify";
 import customFetch from "../utils/customFetch";
@@ -32,8 +32,22 @@ export const action = async ({ request }) => {
   return null;
 };
 
+export const loader = async () => {
+  try {
+    const response = await customFetch.get("/users/users-list");
+    return response.data;
+  } catch (error) {
+    toast.error("you are not authorized to view this page");
+    return redirect("/dashboard");
+  }
+};
+
 const AddProduct = () => {
   const { user } = useOutletContext();
+  const { users } = useLoaderData();
+  const usersList = users.map((user) => {
+    return user.name;
+  });
   const { open, onOpenModal, onCloseModal } = useDashboardContext();
   const [checkedList, setCheckedList] = useState([]);
   const addFieldsHandler = () => {
@@ -61,7 +75,7 @@ const AddProduct = () => {
           <FormRowSelect
             labelText="Assigned To"
             name="assignedTo"
-            list={["pavitra", "kevi"]}
+            list={usersList}
           />
           <FormRowSelect labelText="Status" name="status" list={PLACE} />
           {checkedList &&

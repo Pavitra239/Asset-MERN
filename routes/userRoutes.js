@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   getApplicationStats,
   getCurrentUser,
+  getUsersList,
   updateUser,
 } from "../controllers/userController.js";
 import { validateUpdateUserInput } from "../middlewares/validationMiddleware.js";
@@ -17,6 +18,7 @@ router.get("/admin/app-stats", [
   authorizePermissions("admin", "head"),
   getApplicationStats,
 ]);
+router.get("/users-list", authorizePermissions("admin", "head"), getUsersList);
 router.patch(
   "/update-user",
   checkForTestUser,

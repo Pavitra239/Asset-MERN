@@ -24,6 +24,13 @@ export const getApplicationStats = async (req, res) => {
   });
 };
 
+export const getUsersList = async (req, res) => {
+  const users = await User.find({}).sort("name");
+  res.status(StatusCodes.OK).json({
+    users,
+  });
+};
+
 export const updateUser = async (req, res) => {
   const newUser = { ...req.body };
   delete newUser.password;

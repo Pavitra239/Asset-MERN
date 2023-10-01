@@ -27,6 +27,7 @@ import { loader as dashboardLoader } from "./pages/DashboardLayout";
 import { loader as allProductsLoader } from "./pages/AllProducts";
 import { loader as adminLoader } from "./pages/Admin";
 import { loader as editProductLoader } from "./pages/EditProduct";
+import { loader as addProductLoader } from "./pages/AddProduct";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -61,6 +62,7 @@ const router = createBrowserRouter([
             path: "add-product",
             element: <AddProduct />,
             action: addProductAction,
+            loader: addProductLoader,
           },
           { path: "profile", element: <Profile />, action: profileAction },
           { path: "admin", element: <Admin />, loader: adminLoader },
