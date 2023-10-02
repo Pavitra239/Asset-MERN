@@ -1,5 +1,11 @@
-import { FormRow, FormRowFile, SubmitBtn } from "../components";
-import { FormRowSelect } from "../components";
+import {
+  FormRow,
+  FormRowFile,
+  SubmitBtn,
+  FormRowSelect,
+  Modal,
+  DynamicField,
+} from "../components";
 import Wrapper from "../assets/wrappers/DashboardFormPage";
 import { useLoaderData, useOutletContext } from "react-router-dom";
 import { Form, redirect } from "react-router-dom";
@@ -8,9 +14,7 @@ import customFetch from "../utils/customFetch";
 import { saveAs } from "file-saver";
 import { PLACE } from "../../../utils/constants";
 import FormBtn from "../components/FormBtn";
-import Modal from "../components/Modal";
 import { useDashboardContext } from "./DashboardLayout";
-import DynamicField from "../components/DynamicField";
 import { useState } from "react";
 
 export const action = async ({ request }) => {
@@ -19,8 +23,8 @@ export const action = async ({ request }) => {
   try {
     const { data } = await customFetch.post("/products", formData);
     toast.success("Product added successfully", { autoClose: 1000 });
-    const downloadImage = window.confirm("Want to download image?");
-    if (downloadImage) {
+    const downloadQrCode = window.confirm("Want to download Qr Code?");
+    if (downloadQrCode) {
       saveAs(data.product.qr, "qr.png");
     }
     return redirect("/dashboard");

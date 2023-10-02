@@ -52,12 +52,14 @@ const Login = () => {
         <Logo />
         <h4>Login</h4>
         {errors?.msg && <p style={{ color: "red" }}>{errors.msg}</p>}
-        <FormRow type="email" name="email" defaultValue="john@email.com" />
-        <FormRow type="password" name="password" defaultValue="secret123" />
+        <FormRow type="email" name="email" placeholder="Enter Your Email" />
+        <FormRow
+          type="password"
+          name="password"
+          placeholder="Enter Your Password"
+        />
         <SubmitBtn formBtn text="Login" />
-        <button type="button" className="btn btn-block" onClick={testUser}>
-          explore the app
-        </button>
+
         <p>
           Not a member yet?
           <Link to="/register" className="member-btn">

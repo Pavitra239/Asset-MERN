@@ -11,3 +11,6 @@ export { default as StatItem } from "./StatItem";
 export { default as SubmitBtn } from "./SubmitBtn";
 export { default as FormRowFile } from "./FormRowFile";
 export { default as ProductsContainer } from "./ProductsContainer";
+export { default as Modal } from "./Modal";
+export { default as DynamicField } from "./DynamicField";
+export { default as FormBtn } from "./FormBtn";

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaUserAlt, FaCertificate } from "react-icons/fa";
+import { FaUserAlt, FaBriefcase, FaBuilding } from "react-icons/fa";
 import { Link, Form } from "react-router-dom";
 import Wrapper from "../assets/wrappers/Product";
 import day from "dayjs";
@@ -19,8 +19,8 @@ const Product = ({ product }) => {
   const onCloseModal = () => setOpen(false);
   //   const date = day(createdAt).format("MMM Do, YYYY");
   const downloadQrHandler = () => {
-    const downloadImage = window.confirm("Want to download image?");
-    if (downloadImage) {
+    const downloadQrCode = window.confirm("Want to download Qr Code?");
+    if (downloadQrCode) {
       saveAs(product.qr, `${product._id}.png`);
     }
   };
@@ -44,9 +44,9 @@ const Product = ({ product }) => {
           <h3 className="product-title">{product.name}</h3>
           <div className="product-content">
             <div className="product-content-center">
-              <ProductInfo icon={<FaCertificate />} text={product.company} />
+              <ProductInfo icon={<FaBriefcase />} text={product.company} />
               <ProductInfo icon={<FaUserAlt />} text={product.assignedTo} />
-              <ProductInfo icon={<FaUserAlt />} text={product.department} />
+              <ProductInfo icon={<FaBuilding />} text={product.department} />
               <div
                 className={`status ${
                   product.status ? "interview" : "declined"
