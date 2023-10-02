@@ -29,9 +29,9 @@ export const loader = async ({ params }) => {
 
 export const action = async ({ request, params }) => {
   const formData = await request.formData();
-  const data = Object.fromEntries(formData);
+
   try {
-    await customFetch.patch(`/products/${params.id}`, data);
+    await customFetch.patch(`/products/${params.id}`, formData);
     toast.success("Product updated successfully");
     return redirect("/dashboard");
   } catch (error) {
@@ -60,7 +60,7 @@ const EditProduct = () => {
           <DynamicField onClose={onCloseModal} addFields={setCheckedList} />
         </Modal>
       )}
-      <Form className="form" method="POST">
+      <Form className="form" method="POST" encType="multipart/form-data">
         <h4 className="form-title">Edit Product</h4>
         <div className="form-center">
           <FormRowFile name="productImg" label="Product Image" />
