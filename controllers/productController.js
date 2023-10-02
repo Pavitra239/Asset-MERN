@@ -111,12 +111,10 @@ export const updateProduct = async (req, res) => {
     }
   }
 
-  if (req.body.productImg === "") {
-    delete req.body.productImg;
-  }
-
-  if (req.body.invoice === "") {
-    delete req.body.invoice;
+  for (const key in Object.keys(req.body)) {
+    if (req.body[key] === "") {
+      delete req.body[key];
+    }
   }
 
   const updatedProduct = await Product.findByIdAndUpdate(
