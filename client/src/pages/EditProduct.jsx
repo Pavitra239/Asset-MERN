@@ -18,9 +18,14 @@ import { useState } from "react";
 
 export const loader = async ({ params }) => {
   try {
-    const { data } = await customFetch.get(`/products/${params.id}`);
-    const response = await customFetch.get("/users/users-list");
-    return { productData: data, usersData: response.data };
+    const product = await customFetch.get(`/products/${params.id}`);
+    const users = await customFetch.get("/users/users-list");
+    const departments = await customFetch.get("users/departments");
+    return {
+      product: product.data.product,
+      users: users.data.users,
+      departments: departments.data.departments,
+    };
   } catch (error) {
     toast.error(error?.response?.data?.msg || error.message);
     return redirect("/dashboard");
@@ -41,9 +46,8 @@ export const action = async ({ request, params }) => {
 };
 
 const EditProduct = () => {
-  const { productData, usersData } = useLoaderData();
-  const product = productData.product;
-  const users = usersData.users;
+  const { product, users, departments } = useLoaderData();
+
   const usersList = users.map((user) => {
     return user.name;
   });
@@ -68,11 +72,17 @@ const EditProduct = () => {
           <FormRow type="text" name="company" defaultValue={product.company} />
           <FormRow type="Date" labelText="Purchase Date" name="purchaseDate" />
           <FormRowSelect
+            labelText="Department"
+            name="department"
+            list={departments}
+            defaultValue={product.department}
+          />
+          <FormRowSelect
             labelText="Assigned To"
             name="assignedTo"
             list={usersList}
+            defaultValue={product.assignedTo}
           />
-
           <FormRowSelect
             labelText="Status"
             name="status"

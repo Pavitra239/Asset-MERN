@@ -38,8 +38,12 @@ export const action = async ({ request }) => {
 
 export const loader = async () => {
   try {
-    const response = await customFetch.get("/users/users-list");
-    return response.data;
+    const users = await customFetch.get("/users/users-list");
+    const departments = await customFetch.get("users/departments");
+    return {
+      departments: departments.data.departments,
+      users: users.data.users,
+    };
   } catch (error) {
     toast.error("you are not authorized to view this page");
     return redirect("/dashboard");
@@ -48,7 +52,8 @@ export const loader = async () => {
 
 const AddProduct = () => {
   const { user } = useOutletContext();
-  const { users } = useLoaderData();
+  const { users, departments } = useLoaderData();
+
   const usersList = users.map((user) => {
     return user.name;
   });
@@ -75,6 +80,11 @@ const AddProduct = () => {
             labelText="Purchase Date"
             name="purchaseDate"
             defaultValue={user.location}
+          />
+          <FormRowSelect
+            labelText="Department"
+            name="department"
+            list={departments}
           />
           <FormRowSelect
             labelText="Assigned To"

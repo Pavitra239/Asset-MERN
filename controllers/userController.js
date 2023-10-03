@@ -3,6 +3,7 @@ import User from "../models/UserModel.js";
 import Product from "../models/productModel.js";
 import { v2 as cloudinary } from "cloudinary";
 import { promises as fs } from "fs";
+import { USER_DEPARTMENTS } from "../utils/constants.js";
 export const getCurrentUser = async (req, res) => {
   const user = await User.findOne({ _id: req.user.userId });
   const userWithoutPassword = user.toJSON();
@@ -29,6 +30,14 @@ export const getUsersList = async (req, res) => {
   res.status(StatusCodes.OK).json({
     users,
   });
+};
+
+export const getDepartmentList = async (req, res) => {
+  let departments = [req.user.department];
+  if (req.user.role === "admin") {
+    departments = Object.values(USER_DEPARTMENTS);
+  }
+  res.status(StatusCodes.OK).json({ departments });
 };
 
 export const updateUser = async (req, res) => {
