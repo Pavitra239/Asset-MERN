@@ -329,3 +329,11 @@ button:disabled {
   background: #ffeeee;
   color: #d66a6a;
 }
+.out-of-avd {
+  background: #fcaeae;
+  color: #952323;
+}
+.avd {
+  background: #a8df8e;
+  color: #1a5d1a;
+}

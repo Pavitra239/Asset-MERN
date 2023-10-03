@@ -48,9 +48,7 @@ const Product = ({ product }) => {
               <ProductInfo icon={<FaUserAlt />} text={product.assignedTo} />
               <ProductInfo icon={<FaBuilding />} text={product.department} />
               <div
-                className={`status ${
-                  product.status ? "interview" : "declined"
-                }`}
+                className={`status ${product.status ? "avd" : "out-of-avd"}`}
               >
                 {product.status ? "avd" : "out of avd"}
               </div>
