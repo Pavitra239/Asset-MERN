@@ -6,7 +6,6 @@ import {
 } from "../errors/customErrors.js";
 import { JOB_STATUS, JOB_TYPE } from "../utils/constants.js";
 import mongoose from "mongoose";
-import Job from "../models/JobModel.js";
 import User from "../models/UserModel.js";
 import Product from "../models/productModel.js";
 const withValidationErrors = (validateValues) => {
@@ -33,29 +32,6 @@ const withValidationErrors = (validateValues) => {
   ];
 };
 
-export const validateJobInput = withValidationErrors([
-  body("company").notEmpty().withMessage("Company is required"),
-  body("position").notEmpty().withMessage("position is required"),
-  body("jobLocation").notEmpty().withMessage("Job Location  is required"),
-  body("jobStatus")
-    .isIn(Object.values(JOB_STATUS))
-    .withMessage("Invalid job status"),
-  body("jobType").isIn(Object.values(JOB_TYPE)).withMessage("Invalid job type"),
-]);
-
-export const validateIdParam = withValidationErrors([
-  param("id").custom(async (value, { req }) => {
-    const isValid = await mongoose.Types.ObjectId.isValid(value);
-    if (!isValid) throw new BadRequestError("Invalid MongoDB ID");
-    const job = await Job.findById(value);
-    if (!job) throw new NotFoundError(`no job with id ${value}`);
-    const isAdmin = req.user.role === "admin";
-    const isOwner = req.user.userId === job.createdBy.toString();
-    if (!isAdmin && !isOwner)
-      throw new UnauthorizedError("not authorized to access this route");
-  }),
-]);
-
 export const validateRegisterInput = withValidationErrors([
   body("name").notEmpty().withMessage("Name is required"),
   body("email")
@@ -73,7 +49,6 @@ export const validateRegisterInput = withValidationErrors([
     .isLength({ min: 8 })
     .withMessage("Password must be at least 8 characters"),
   body("location").notEmpty().withMessage("location is required"),
-  body("lastName").notEmpty().withMessage("last name is required"),
 ]);
 
 export const validateLoginInput = withValidationErrors([
@@ -99,7 +74,6 @@ export const validateUpdateUserInput = withValidationErrors([
       }
     }),
   body("location").notEmpty().withMessage("location is required"),
-  body("lastName").notEmpty().withMessage("last name is required"),
 ]);
 
 // Products Validation

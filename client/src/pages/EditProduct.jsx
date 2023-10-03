@@ -93,7 +93,11 @@ const EditProduct = () => {
               }
             })}
           <FormBtn formBtn text="Add Fields" handler={addFieldsHandler} />
-          <SubmitBtn formBtn />
+          <SubmitBtn
+            formBtn
+            text="Update Product"
+            waitingLabel="Updating Product"
+          />
         </div>
       </Form>
     </Wrapper>

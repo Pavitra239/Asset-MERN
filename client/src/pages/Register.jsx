@@ -26,12 +26,6 @@ const Register = () => {
         <FormRow type="text" name="name" placeholder="Enter your name" />
         <FormRow
           type="text"
-          name="lastName"
-          labelText="last name"
-          placeholder="Enter your last name"
-        />
-        <FormRow
-          type="text"
           name="location"
           placeholder="Enter your location"
         />
@@ -41,7 +35,7 @@ const Register = () => {
           name="password"
           placeholder="Enter your password"
         />
-        <SubmitBtn formBtn text="Register" />
+        <SubmitBtn formBtn text="Register" waitingLabel="Registering" />
         <p>
           Already a member?
           <Link to="/login" className="member-btn">

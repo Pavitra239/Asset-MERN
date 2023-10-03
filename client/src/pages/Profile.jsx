@@ -45,15 +45,13 @@ const Profile = () => {
             />
           </div>
           <FormRow type="text" name="name" defaultValue={name} />
-          <FormRow
-            type="text"
-            name="lastName"
-            defaultValue={lastName}
-            labelText="Last Name"
-          />
           <FormRow type="email" name="email" defaultValue={email} />
           <FormRow type="text" name="location" defaultValue={location} />
-          <SubmitBtn formBtn />
+          <SubmitBtn
+            formBtn
+            text="Update Profile"
+            waitingLabel="Updating Profile"
+          />
         </div>
       </Form>
     </Wrapper>

@@ -8,7 +8,6 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import { authenticateUser } from "./middlewares/authMiddleware.js";
 // Routes
-import jobRouter from "./routes/jobRouter.js";
 import userRouter from "./routes/userRoutes.js";
 import authRouter from "./routes/authRoutes.js";
 import productRouter from "./routes/productRoutes.js";
@@ -37,9 +36,6 @@ if (process.env.NODE_ENV === "development") {
 app.use(express.static(path.resolve(__dirname, "public")));
 app.use(express.json());
 app.use(cookieParser());
-
-// Job Routes
-app.use("/api/v1/jobs", authenticateUser, jobRouter);
 
 // Products Routes
 app.use("/api/v1/products", authenticateUser, productRouter);

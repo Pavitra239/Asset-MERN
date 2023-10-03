@@ -58,7 +58,7 @@ const Login = () => {
           name="password"
           placeholder="Enter Your Password"
         />
-        <SubmitBtn formBtn text="Login" />
+        <SubmitBtn formBtn text="Login" waitingLabel="Signing In" />
 
         <p>
           Not a member yet?

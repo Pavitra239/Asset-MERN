@@ -3,16 +3,12 @@ import { USER_DEPARTMENTS, USER_ROLES } from "../utils/constants.js";
 
 const UserSchema = new mongoose.Schema(
   {
-    name: String,
+    firstName: String,
     email: String,
     password: String,
-    lastName: {
-      type: String,
-      default: "",
-    },
     location: {
       type: String,
-      default: "my city",
+      default: "avd",
     },
     role: {
       type: String,

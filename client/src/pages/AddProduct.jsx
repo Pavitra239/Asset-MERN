@@ -96,7 +96,7 @@ const AddProduct = () => {
               }
             })}
           <FormBtn formBtn text="Add Fields" handler={addFieldsHandler} />
-          <SubmitBtn formBtn />
+          <SubmitBtn formBtn waitingLabel="Adding Product" text="Add Product" />
         </div>
       </Form>
     </Wrapper>
