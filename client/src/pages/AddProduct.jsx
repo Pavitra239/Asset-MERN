@@ -74,8 +74,12 @@ const AddProduct = () => {
         <h4 className="form-title">Add Product</h4>
         <div className="form-center">
           <FormRowFile name="productImg" label="Product Image" />
-          <FormRow type="text" name="name" />
-          <FormRow type="text" name="company" />
+          <FormRow type="text" name="name" placeholder="Enter product name" />
+          <FormRow
+            type="text"
+            name="company"
+            placeholder="Enter product company"
+          />
           <FormDatePicker name="purchaseDate" labelText="Purchase Date" max />
           <FormRowSelect
             labelText="Department"

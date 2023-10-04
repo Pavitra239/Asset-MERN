@@ -99,7 +99,6 @@ export const createProduct = async (req, res) => {
 
 export const getProduct = async (req, res) => {
   const product = await Product.findById(req.params.id);
-  console.log(product);
   res.status(StatusCodes.OK).json({
     product,
   });
