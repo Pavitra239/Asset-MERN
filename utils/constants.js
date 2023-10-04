@@ -34,6 +34,11 @@ export const PLACE = {
   OUTPLACE: "out place",
 };
 
+export const WARRANTY_STATUS = {
+  ACTIVE: "active",
+  EXPIRED: "expired",
+};
+
 export const PRODUCT_SORT_BY = {
   NEWEST_FIRST: "newest",
   OLDEST_FIRST: "oldest",

@@ -1,7 +1,7 @@
 import Product from "../models/productModel.js";
 import { StatusCodes } from "http-status-codes";
 import { uploadFile } from "../utils/firebase/uploadFile.js";
-import { PLACE, PRODUCT_SORT_BY } from "../utils/constants.js";
+import { PLACE, PRODUCT_SORT_BY, WARRANTY_STATUS } from "../utils/constants.js";
 import { promises as fs } from "fs";
 import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat.js";
@@ -9,7 +9,7 @@ import { saveFile } from "../utils/saveFile.js";
 dayjs.extend(advancedFormat);
 
 export const getAllProducts = async (req, res) => {
-  const { search, productStatus, sort } = req.query;
+  const { search, productStatus, productWarranty, sort } = req.query;
 
   // searching logic
   const queryObject = {};
@@ -19,6 +19,11 @@ export const getAllProducts = async (req, res) => {
 
   if (productStatus && productStatus !== "all") {
     queryObject.status = productStatus === PLACE.AVD ? true : false;
+  }
+
+  if (productWarranty && productWarranty !== "all") {
+    queryObject.warranty =
+      productWarranty === WARRANTY_STATUS.ACTIVE ? true : false;
   }
 
   let products;

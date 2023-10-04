@@ -2,7 +2,7 @@ import Wrapper from "../assets/wrappers/ProductDetails";
 import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 import "dayjs/locale/en";
-import { PLACE } from "../../../utils/constants";
+import { PLACE, WARRANTY_STATUS } from "../../../utils/constants";
 
 dayjs.extend(advancedFormat);
 
@@ -31,15 +31,19 @@ const ProductDetails = ({ product }) => {
             product[key] = product[key] ? PLACE.AVD : PLACE.OUTPLACE;
           }
           if (key === "warranty") {
-            product[key] = product[key] ? "Active" : "Expired";
+            product[key] =
+              product[key] === true
+                ? WARRANTY_STATUS.ACTIVE
+                : WARRANTY_STATUS.EXPIRED;
           }
+
           if (dayjs(product[key]).isValid()) {
             product[key] = dayjs(product[key]).format("DD-MMM-YYYY");
           }
           return (
             <p key={key}>
               <span className="text">
-                <strong>{key}: </strong>
+                <strong>{key} : </strong>
               </span>
               {product[key]}
             </p>

@@ -103,6 +103,7 @@ const EditProduct = () => {
                     <FormDatePicker
                       name={field.name}
                       labelText={field.label}
+                      defaultValue={product[field.name]}
                       min
                       key={index}
                     />

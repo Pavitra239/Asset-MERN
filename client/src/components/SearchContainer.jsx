@@ -1,11 +1,15 @@
 import { FormRow, FormRowSelect, SubmitBtn } from ".";
 import Wrapper from "../assets/wrappers/DashboardFormPage";
 import { Form, useSubmit, Link } from "react-router-dom";
-import { PRODUCT_SORT_BY, PLACE } from "../../../utils/constants";
+import {
+  PRODUCT_SORT_BY,
+  PLACE,
+  WARRANTY_STATUS,
+} from "../../../utils/constants";
 import { useAllProductsContext } from "../pages/AllProducts";
 const SearchContainer = () => {
   const { searchValues } = useAllProductsContext();
-  const { search, productStatus, sort } = searchValues;
+  const { search, productStatus, productWarranty, sort } = searchValues;
   const submit = useSubmit();
 
   const debounce = (onChange) => {
@@ -38,6 +42,16 @@ const SearchContainer = () => {
             name="productStatus"
             list={["all", ...Object.values(PLACE)]}
             defaultValue={productStatus}
+            onChange={(e) => {
+              submit(e.currentTarget.form);
+            }}
+          />
+
+          <FormRowSelect
+            labelText="Product Warranty"
+            name="productWarranty"
+            list={["all", ...Object.values(WARRANTY_STATUS)]}
+            defaultValue={productWarranty}
             onChange={(e) => {
               submit(e.currentTarget.form);
             }}
