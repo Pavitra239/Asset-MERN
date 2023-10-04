@@ -4,6 +4,7 @@ const FormRowSelect = ({
   list,
   defaultValue = "",
   onChange,
+  group,
 }) => {
   return (
     <div className="form-row">

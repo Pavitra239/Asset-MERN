@@ -24,6 +24,7 @@ export const login = async (req, res) => {
     userId: user._id,
     role: user.role,
     department: user.department,
+    name: user.name,
   });
   const oneDay = 1000 * 60 * 60 * 24;
 

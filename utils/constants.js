@@ -45,34 +45,32 @@ export const FIELDS = [
   {
     name: "invoice",
     type: "file",
+    label: "Invoice",
   },
   {
-    name: "warranty date",
+    name: "warrantyDate",
     type: "date",
+    label: "Warranty Date",
   },
   {
-    name: "customer care",
+    name: "customerCare",
     type: "text",
+    label: "Customer Care",
   },
   {
     name: "power",
     type: "text",
+    label: "Power",
   },
   {
     name: "capacity",
     type: "text",
+    label: "Capacity",
   },
   {
-    name: "serial number",
+    name: "serialNumber",
     type: "text",
-  },
-  {
-    name: "field",
-    type: "text",
-  },
-  {
-    name: "other",
-    type: "text",
+    label: "Serial Number",
   },
 ];
 

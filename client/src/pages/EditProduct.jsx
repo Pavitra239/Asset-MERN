@@ -6,6 +6,7 @@ import {
   Modal,
   DynamicField,
   FormBtn,
+  FormDatePicker,
 } from "../components";
 import Wrapper from "../assets/wrappers/DashboardFormPage";
 import { useLoaderData, useParams } from "react-router-dom";
@@ -70,7 +71,12 @@ const EditProduct = () => {
           <FormRowFile name="productImg" label="Product Image" />
           <FormRow type="text" name="name" defaultValue={product.name} />
           <FormRow type="text" name="company" defaultValue={product.company} />
-          <FormRow type="Date" labelText="Purchase Date" name="purchaseDate" />
+          <FormDatePicker
+            labelText="Purchase Date"
+            name="purchaseDate"
+            defaultValue={product.purchaseDate}
+            max
+          />
           <FormRowSelect
             labelText="Department"
             name="department"
@@ -93,13 +99,32 @@ const EditProduct = () => {
             checkedList.map((field, index) => {
               switch (field.type) {
                 case "date":
-                  return <FormRow type="date" name={field.name} key={index} />;
+                  return (
+                    <FormDatePicker
+                      name={field.name}
+                      labelText={field.label}
+                      min
+                      key={index}
+                    />
+                  );
                 case "file":
                   return (
-                    <FormRowFile type="file" name={field.name} key={index} />
+                    <FormRowFile
+                      type="file"
+                      name={field.name}
+                      labelText={field.label}
+                      key={index}
+                    />
                   );
                 default:
-                  return <FormRow type="text" name={field.name} key={index} />;
+                  return (
+                    <FormRow
+                      type="text"
+                      name={field.name}
+                      labelText={field.label}
+                      key={index}
+                    />
+                  );
               }
             })}
           <FormBtn formBtn text="Add Fields" handler={addFieldsHandler} />

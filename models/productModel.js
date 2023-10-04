@@ -17,12 +17,16 @@ const ProductSchema = new mongoose.Schema(
     purchaseDate: {
       type: Date,
     },
-    warranty: Boolean,
+    warranty: {
+      type: Boolean,
+      default: false,
+    },
     qr: String,
     creator: {
       type: mongoose.Types.ObjectId,
       ref: "User", // This tells Mongoose that the 'owner' field references the 'User' model
     },
+    createdBy: String,
     assignedTo: String,
     status: {
       type: Boolean,

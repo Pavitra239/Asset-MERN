@@ -3,7 +3,10 @@ import { StatusCodes } from "http-status-codes";
 import { uploadFile } from "../utils/firebase/uploadFile.js";
 import { PLACE, PRODUCT_SORT_BY } from "../utils/constants.js";
 import { promises as fs } from "fs";
+import dayjs from "dayjs";
+import advancedFormat from "dayjs/plugin/advancedFormat.js";
 import { saveFile } from "../utils/saveFile.js";
+dayjs.extend(advancedFormat);
 
 export const getAllProducts = async (req, res) => {
   const { search, productStatus, sort } = req.query;
@@ -56,7 +59,11 @@ export const getAllProducts = async (req, res) => {
 };
 
 export const createProduct = async (req, res) => {
-  req.body.createdBy = req.user.userId;
+  req.body.creator = req.user.userId;
+  req.body.createdBy = req.user.name;
+  if (req.body.warrantyDate) {
+    req.body.warranty = dayjs(req.body.warrantyDate).isAfter(dayjs());
+  }
   if (req.user.role !== "admin") {
     req.body.department = req.user.department;
   }
@@ -87,6 +94,7 @@ export const createProduct = async (req, res) => {
 
 export const getProduct = async (req, res) => {
   const product = await Product.findById(req.params.id);
+  console.log(product);
   res.status(StatusCodes.OK).json({
     product,
   });
@@ -94,6 +102,9 @@ export const getProduct = async (req, res) => {
 
 export const updateProduct = async (req, res) => {
   req.body.status = req.body.status === PLACE.AVD ? true : false;
+  if (req.body.warrantyDate) {
+    req.body.warranty = dayjs(req.body.warrantyDate).isAfter(dayjs());
+  }
   if (req.files) {
     if (req.files.productImg) {
       req.body.productImg = await saveFile(

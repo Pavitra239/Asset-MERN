@@ -3,6 +3,7 @@ import {
   FormRowFile,
   SubmitBtn,
   FormRowSelect,
+  FormDatePicker,
   Modal,
   DynamicField,
 } from "../components";
@@ -75,12 +76,7 @@ const AddProduct = () => {
           <FormRowFile name="productImg" label="Product Image" />
           <FormRow type="text" name="name" />
           <FormRow type="text" name="company" />
-          <FormRow
-            type="Date"
-            labelText="Purchase Date"
-            name="purchaseDate"
-            defaultValue={user.location}
-          />
+          <FormDatePicker name="purchaseDate" labelText="Purchase Date" max />
           <FormRowSelect
             labelText="Department"
             name="department"
@@ -96,13 +92,32 @@ const AddProduct = () => {
             checkedList.map((field, index) => {
               switch (field.type) {
                 case "date":
-                  return <FormRow type="date" name={field.name} key={index} />;
+                  return (
+                    <FormDatePicker
+                      name={field.name}
+                      labelText={field.label}
+                      min
+                      key={index}
+                    />
+                  );
                 case "file":
                   return (
-                    <FormRowFile type="file" name={field.name} key={index} />
+                    <FormRowFile
+                      type="file"
+                      name={field.name}
+                      labelText={field.label}
+                      key={index}
+                    />
                   );
                 default:
-                  return <FormRow type="text" name={field.name} key={index} />;
+                  return (
+                    <FormRow
+                      type="text"
+                      name={field.name}
+                      labelText={field.label}
+                      key={index}
+                    />
+                  );
               }
             })}
           <FormBtn formBtn text="Add Fields" handler={addFieldsHandler} />

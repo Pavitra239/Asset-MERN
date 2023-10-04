@@ -22,6 +22,7 @@ const DynamicField = ({ onClose, addFields }) => {
         {
           name: e.target.value,
           type: e.target.dataset.type,
+          label: e.target.dataset.label,
         },
       ]);
     } else {
@@ -40,8 +41,9 @@ const DynamicField = ({ onClose, addFields }) => {
               id={field.name}
               onChange={onChecked}
               data-type={field.type}
+              data-label={field.label}
             />
-            <label htmlFor={field.name}>{field.name}</label>
+            <label htmlFor={field.name}>{field.label}</label>
           </div>
         );
       })}
