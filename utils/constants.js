@@ -27,6 +27,7 @@ export const USER_DEPARTMENTS = {
   KITCHEN: "kitchen",
   ACCOUNTS: "accounts",
   DECORATION: "decoration",
+  ALL: "all",
 };
 
 export const PLACE = {

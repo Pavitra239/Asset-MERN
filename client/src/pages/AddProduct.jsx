@@ -56,7 +56,7 @@ const AddProduct = () => {
   const { users, departments } = useLoaderData();
 
   const usersList = users.map((user) => {
-    return user.name;
+    return { name: user.name, department: user.department };
   });
   const { open, onOpenModal, onCloseModal } = useDashboardContext();
   const [checkedList, setCheckedList] = useState([]);
