@@ -30,9 +30,10 @@ export const USER_DEPARTMENTS = {
   ALL: "all",
 };
 
-export const PLACE = {
-  AVD: "avd",
-  OUTPLACE: "out place",
+export const PRODUCT_STATUS = {
+  IN_DEPT: "In department",
+  NOT_IN_DEPT: "Not in Department",
+  OUT_OF_CAMPUS: "Out of campus",
 };
 
 export const WARRANTY_STATUS = {

@@ -3,7 +3,7 @@ import Wrapper from "../assets/wrappers/DashboardFormPage";
 import { Form, useSubmit, Link } from "react-router-dom";
 import {
   PRODUCT_SORT_BY,
-  PLACE,
+  PRODUCT_STATUS,
   WARRANTY_STATUS,
 } from "../../../utils/constants";
 import { useAllProductsContext } from "../pages/AllProducts";
@@ -40,7 +40,7 @@ const SearchContainer = () => {
           <FormRowSelect
             labelText="Product Status"
             name="productStatus"
-            list={["all", ...Object.values(PLACE)]}
+            list={["all", ...Object.values(PRODUCT_STATUS)]}
             defaultValue={productStatus}
             onChange={(e) => {
               submit(e.currentTarget.form);

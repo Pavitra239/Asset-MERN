@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import qrcode from "qrcode";
+import { WARRANTY_STATUS, PRODUCT_STATUS } from "../utils/constants.js";
 
 const ProductSchema = new mongoose.Schema(
   {
@@ -18,8 +19,8 @@ const ProductSchema = new mongoose.Schema(
       type: Date,
     },
     warranty: {
-      type: Boolean,
-      default: false,
+      type: String,
+      default: WARRANTY_STATUS.EXPIRED,
     },
     qr: String,
     creator: {
@@ -29,8 +30,8 @@ const ProductSchema = new mongoose.Schema(
     createdBy: String,
     assignedTo: String,
     status: {
-      type: Boolean,
-      default: false,
+      type: String,
+      default: PRODUCT_STATUS.IN_DEPT,
     },
     department: String,
   },

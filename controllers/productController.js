@@ -1,7 +1,7 @@
 import Product from "../models/productModel.js";
 import { StatusCodes } from "http-status-codes";
 import { uploadFile } from "../utils/firebase/uploadFile.js";
-import { PLACE, PRODUCT_SORT_BY, WARRANTY_STATUS } from "../utils/constants.js";
+import { PRODUCT_SORT_BY } from "../utils/constants.js";
 import { promises as fs } from "fs";
 import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat.js";
@@ -18,12 +18,11 @@ export const getAllProducts = async (req, res) => {
   }
 
   if (productStatus && productStatus !== "all") {
-    queryObject.status = productStatus === PLACE.AVD ? true : false;
+    queryObject.status = productStatus;
   }
 
   if (productWarranty && productWarranty !== "all") {
-    queryObject.warranty =
-      productWarranty === WARRANTY_STATUS.ACTIVE ? true : false;
+    queryObject.warranty = productWarranty;
   }
 
   let products;
@@ -67,12 +66,11 @@ export const createProduct = async (req, res) => {
   req.body.creator = req.user.userId;
   req.body.createdBy = req.user.name;
   if (req.body.warrantyDate) {
-    req.body.warranty = dayjs(req.body.warrantyDate).isAfter(dayjs());
+    req.body.warranty = WARRANTY_STATUS.ACTIVE;
   }
   if (req.user.role !== "admin") {
     req.body.department = req.user.department;
   }
-  req.body.status = req.body.status === PLACE.AVD ? true : false;
   if (req.files) {
     if (req.files.productImg) {
       req.body.productImg = await saveFile(
@@ -105,7 +103,7 @@ export const getProduct = async (req, res) => {
 };
 
 export const updateProduct = async (req, res) => {
-  req.body.status = req.body.status === PLACE.AVD ? true : false;
+  req.body.status = req.body.status;
   if (req.body.warrantyDate) {
     req.body.warranty = dayjs(req.body.warrantyDate).isAfter(dayjs());
   }

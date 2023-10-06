@@ -14,3 +14,4 @@ export { default as Modal } from "./Modal";
 export { default as DynamicField } from "./DynamicField";
 export { default as FormBtn } from "./FormBtn";
 export { default as FormDatePicker } from "./FormDatePicker";
+export { default as FormSelectGroup } from "./FormSelectGroup";

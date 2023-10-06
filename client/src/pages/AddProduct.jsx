@@ -4,6 +4,7 @@ import {
   SubmitBtn,
   FormRowSelect,
   FormDatePicker,
+  FormSelectGroup,
   Modal,
   DynamicField,
 } from "../components";
@@ -13,7 +14,7 @@ import { Form, redirect } from "react-router-dom";
 import { toast } from "react-toastify";
 import customFetch from "../utils/customFetch";
 import { saveAs } from "file-saver";
-import { PLACE } from "../../../utils/constants";
+import { PRODUCT_STATUS, USER_DEPARTMENTS } from "../../../utils/constants";
 import FormBtn from "../components/FormBtn";
 import { useDashboardContext } from "./DashboardLayout";
 import { useState } from "react";
@@ -56,7 +57,7 @@ const AddProduct = () => {
   const { users, departments } = useLoaderData();
 
   const usersList = users.map((user) => {
-    return { name: user.name, department: user.department };
+    return { name: user.name, category: user.department };
   });
   const { open, onOpenModal, onCloseModal } = useDashboardContext();
   const [checkedList, setCheckedList] = useState([]);
@@ -86,12 +87,23 @@ const AddProduct = () => {
             name="department"
             list={departments}
           />
-          <FormRowSelect
+          {/* <FormRowSelect
             labelText="Assigned To"
             name="assignedTo"
             list={usersList}
+          /> */}
+          <FormSelectGroup
+            labelText="Assigned To"
+            name="assignedTo"
+            list={usersList}
+            categories={USER_DEPARTMENTS}
+            defaultValue={user.name}
           />
-          <FormRowSelect labelText="Status" name="status" list={PLACE} />
+          <FormRowSelect
+            labelText="Status"
+            name="status"
+            list={PRODUCT_STATUS}
+          />
           {checkedList &&
             checkedList.map((field, index) => {
               switch (field.type) {

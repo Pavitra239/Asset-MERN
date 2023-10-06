@@ -7,10 +7,11 @@ import {
   DynamicField,
   FormBtn,
   FormDatePicker,
+  FormSelectGroup,
 } from "../components";
 import Wrapper from "../assets/wrappers/DashboardFormPage";
 import { useLoaderData, useParams } from "react-router-dom";
-import { PLACE } from "../../../utils/constants";
+import { PRODUCT_STATUS, USER_DEPARTMENTS } from "../../../utils/constants";
 import { Form, redirect } from "react-router-dom";
 import { toast } from "react-toastify";
 import customFetch from "../utils/customFetch";
@@ -50,7 +51,7 @@ const EditProduct = () => {
   const { product, users, departments } = useLoaderData();
 
   const usersList = users.map((user) => {
-    return user.name;
+    return { name: user.name, category: user.department };
   });
 
   const { open, onOpenModal, onCloseModal } = useDashboardContext();
@@ -83,17 +84,18 @@ const EditProduct = () => {
             list={departments}
             defaultValue={product.department}
           />
-          <FormRowSelect
+          <FormSelectGroup
             labelText="Assigned To"
             name="assignedTo"
             list={usersList}
+            categories={USER_DEPARTMENTS}
             defaultValue={product.assignedTo}
           />
           <FormRowSelect
             labelText="Status"
             name="status"
-            list={Object.values(PLACE)}
-            defaultValue={product.status ? PLACE.AVD : PLACE.OUTPLACE}
+            list={Object.values(PRODUCT_STATUS)}
+            defaultValue={product.status}
           />
           {checkedList &&
             checkedList.map((field, index) => {
