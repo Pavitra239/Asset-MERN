@@ -1,11 +1,8 @@
 import Product from "../models/productModel.js";
 import { StatusCodes } from "http-status-codes";
-import { uploadFile } from "../utils/firebase/uploadFile.js";
-import { PRODUCT_SORT_BY } from "../utils/constants.js";
-import { promises as fs } from "fs";
 import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat.js";
-import { saveFile } from "../utils/saveFile.js";
+import { deleteFile, saveFile } from "../utils/fileOps.js";
 dayjs.extend(advancedFormat);
 
 export const getAllProducts = async (req, res) => {
@@ -71,25 +68,11 @@ export const createProduct = async (req, res) => {
   if (req.user.role !== "admin") {
     req.body.department = req.user.department;
   }
-  if (req.files) {
-    if (req.files.productImg) {
-      req.body.productImg = await saveFile(
-        req.files.productImg[0],
-        req.body.department,
-        "images"
-      );
-    }
-    if (req.files.invoice) {
-      req.body.invoice = await saveFile(
-        req.files.invoice[0],
-        req.body.department,
-        "invoices"
-      );
-    }
-  }
-
   const product = await Product.create(req.body);
   await product.generateQrCode();
+  if (req.files) {
+    await product.upload(req.files);
+  }
   res.status(StatusCodes.CREATED).json({
     product,
   });
@@ -107,22 +90,6 @@ export const updateProduct = async (req, res) => {
   if (req.body.warrantyDate) {
     req.body.warranty = dayjs(req.body.warrantyDate).isAfter(dayjs());
   }
-  if (req.files) {
-    if (req.files.productImg) {
-      req.body.productImg = await saveFile(
-        req.files.productImg[0],
-        req.body.department,
-        "images"
-      );
-    }
-    if (req.files.invoice) {
-      req.body.invoice = await saveFile(
-        req.files.invoice[0],
-        req.body.department,
-        "invoices"
-      );
-    }
-  }
 
   for (const key in Object.keys(req.body)) {
     if (req.body[key] === "") {
@@ -138,6 +105,10 @@ export const updateProduct = async (req, res) => {
     }
   );
 
+  if (req.files) {
+    await updatedProduct.upload(req.files);
+  }
+
   res.status(StatusCodes.OK).json({
     message: "Product Updated",
     updatedProduct,
@@ -145,6 +116,13 @@ export const updateProduct = async (req, res) => {
 };
 
 export const deleteProduct = async (req, res) => {
+  const product = await Product.findById(req.params.id);
+  if (product.productImg) {
+    await deleteFile(product.department, "images", product._id);
+  }
+  if (product.invoice) {
+    await deleteFile(product.department, "invoices", product._id);
+  }
   const removedProduct = await Product.findByIdAndDelete(req.params.id);
 
   res.status(StatusCodes.OK).json({

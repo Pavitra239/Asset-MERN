@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import qrcode from "qrcode";
 import { WARRANTY_STATUS, PRODUCT_STATUS } from "../utils/constants.js";
+import { saveFile } from "../utils/fileOps.js";
 
 const ProductSchema = new mongoose.Schema(
   {
@@ -47,6 +48,27 @@ ProductSchema.methods.generateQrCode = async function () {
     width: 300,
   };
   this.qr = await qrcode.toDataURL(this.id.toString(), opts);
+  await this.save();
+};
+
+ProductSchema.methods.upload = async function (files) {
+  if (files.productImg) {
+    this.productImg = await saveFile(
+      files.productImg[0],
+      this.department,
+      "images",
+      this._id
+    );
+  }
+  if (files.invoice) {
+    this.invoice = await saveFile(
+      files.productImg[0],
+      this.department,
+      "invoices",
+      this._id
+    );
+  }
+
   await this.save();
 };
 

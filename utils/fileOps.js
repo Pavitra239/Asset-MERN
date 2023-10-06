@@ -1,7 +1,7 @@
 import { promises as fs } from "fs";
-import { uploadFile } from "./firebase/uploadFile.js";
+import { removeFile, uploadFile } from "./firebase/firebaseFileOps.js";
 import sharp from "sharp";
-export const saveFile = async (file, department, type) => {
+export const saveFile = async (file, department, type, name) => {
   if (type === "images") {
     const compressedBuffer = await sharp(file.path)
       .resize(300)
@@ -9,7 +9,11 @@ export const saveFile = async (file, department, type) => {
       .toBuffer();
     await fs.writeFile(file.path, compressedBuffer);
   }
-  const fileUrl = await uploadFile(file, department, type);
+  const fileUrl = await uploadFile(file, department, type, name);
   await fs.unlink(file.path);
   return fileUrl;
+};
+
+export const deleteFile = async (department, type, name) => {
+  await removeFile(department, type, name);
 };

@@ -3,13 +3,13 @@ import {
   ref,
   uploadBytesResumable,
   getDownloadURL,
+  deleteObject,
 } from "firebase/storage";
 import app from "./firebase.js";
 import { promises as fs } from "fs";
-import { resolve } from "path";
 
-export const uploadFile = async (file, folder, type) => {
-  file.filename = Date.now();
+export const uploadFile = async (file, folder, type, name) => {
+  file.filename = name;
   return new Promise(async (resolve, reject) => {
     const storage = getStorage(app);
     // Create the file metadata
@@ -67,4 +67,21 @@ export const uploadFile = async (file, folder, type) => {
       }
     );
   });
+};
+
+export const removeFile = async (department, type, name) => {
+  const storage = getStorage();
+
+  // Create a reference to the file to delete
+
+  const desertRef = ref(storage, `${department}/${type}/` + name);
+
+  // Delete the file
+  deleteObject(desertRef)
+    .then(() => {
+      console.log("deleted Successfully");
+    })
+    .catch((error) => {
+      console.log("not deleted  ");
+    });
 };
