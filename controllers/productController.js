@@ -2,7 +2,7 @@ import Product from "../models/productModel.js";
 import { StatusCodes } from "http-status-codes";
 import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat.js";
-import { deleteFile, saveFile } from "../utils/fileOps.js";
+import { deleteFile } from "../utils/fileOps.js";
 dayjs.extend(advancedFormat);
 
 export const getAllProducts = async (req, res) => {
