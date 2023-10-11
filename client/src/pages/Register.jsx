@@ -1,8 +1,9 @@
 import { Form, redirect, Link } from "react-router-dom";
 import Wrapper from "../assets/wrappers/RegisterAndLoginPage";
-import { FormRow, Logo, SubmitBtn } from "../components";
+import { FormRow, FormRowSelect, Logo, SubmitBtn } from "../components";
 import customFetch from "../utils/customFetch";
 import { toast } from "react-toastify";
+import { USER_DEPARTMENTS } from "../../../utils/constants";
 export const action = async ({ request }) => {
   const formData = await request.formData();
   const data = Object.fromEntries(formData.entries());
@@ -34,6 +35,8 @@ const Register = () => {
           name="password"
           placeholder="Enter your password"
         />
+        <FormRowSelect name="department" list={USER_DEPARTMENTS} />
+        <FormRowSelect name="role" list={["user", "head", "admin"]} />
         <SubmitBtn formBtn text="Register" waitingLabel="Registering" />
         <p>
           Already a member?

@@ -37,6 +37,11 @@ const router = createBrowserRouter([
         action: loginAction,
       },
       {
+        path: "register",
+        element: <Register />,
+        action: registerAction,
+      },
+      {
         path: "dashboard",
         element: <DashboardLayout />,
         loader: dashboardLoader,
